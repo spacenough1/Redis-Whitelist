@@ -1,0 +1,4 @@
+name: Codelen-PluginBoilerplate
+version: '${version}'
+main: pl.codelen.template.Main
+api-version: '1.20'
