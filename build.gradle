@@ -53,11 +53,6 @@ processResources {
 
 shadowJar {
   relocate 'dev.dejvokep.boostedyaml', 'pl.codelen.libs.yaml'
-  relocate 'redis', 'pl.codelen.libs.jedis'
-  relocate 'com', 'pl.codelen.libs.google'
-  relocate 'org.slf4j', 'pl.codelen.libs.slf4j'
-  relocate 'org.json', 'pl.codelen.libs.json'
-  relocate 'org.apache', 'pl.codelen.libs.apache'
-  relocate 'org.jetbrains', 'pl.codelen.libs.annotation'
-  relocate 'org.intellij', 'pl.codelen.libs.intellij'
+  relocate 'redis.clients', 'pl.codelen.libs.jedis'
 }
+
