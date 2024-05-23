@@ -1,4 +1,4 @@
-package pl.codelen.template.commands;
+package pl.codelen.whitelist.commands;
 
 public interface CommandInfo {
   String name();

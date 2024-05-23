@@ -1,4 +1,4 @@
-package pl.codelen.template.commands;
+package pl.codelen.whitelist.commands;
 
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;

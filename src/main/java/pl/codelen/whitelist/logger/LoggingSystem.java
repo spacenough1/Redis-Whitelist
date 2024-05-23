@@ -1,13 +1,13 @@
-package pl.codelen.template.logger;
+package pl.codelen.whitelist.logger;
 
 import org.jetbrains.annotations.NotNull;
-import pl.codelen.template.Main;
+import pl.codelen.whitelist.Whitelist;
 
 import java.util.logging.Logger;
 
 public class LoggingSystem {
-  private static final Logger LOGGER = Main.getInstance().getLogger();
-  private static final String PREFIX = "[Codelen - Template]: ";
+  private static final Logger LOGGER = Whitelist.getInstance().getLogger();
+  private static final String PREFIX = "[Whitelist]: ";
   private static StringBuilder stringBuilder;
 
   public static void logInfo(@NotNull String... args) {
