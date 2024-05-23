@@ -1,15 +1,13 @@
-package pl.codelen.template.commands;
+package pl.codelen.whitelist.commands;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static pl.codelen.template.config.Config.noPermission;
-import static pl.codelen.template.utils.Colors.fixSyntax;
+import static pl.codelen.whitelist.config.Config.noPermission;
+import static pl.codelen.whitelist.utils.Colors.fixSyntax;
 
 public abstract class CommandManager implements CommandExecutor, CommandInfo {
   private final String name;
@@ -24,7 +22,7 @@ public abstract class CommandManager implements CommandExecutor, CommandInfo {
 
   @Override
   public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-    if (!(permission().isEmpty()) && !sender.hasPermission(permission()) && !sender.hasPermission("template.all")) {
+    if (!(permission().isEmpty()) && !sender.hasPermission(permission()) && !sender.hasPermission("whitelist.all")) {
       sender.sendMessage(fixSyntax(noPermission));
       return true;
     }
