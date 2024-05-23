@@ -1,4 +1,4 @@
-package pl.codelen.template;
+package pl.codelen.whitelist;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
@@ -10,36 +10,48 @@ import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import pl.codelen.template.commands.CommandManager;
-import pl.codelen.template.commands.CommandRegistrar;
+import pl.codelen.whitelist.commands.CommandManager;
+import pl.codelen.whitelist.commands.CommandRegistrar;
+import pl.codelen.whitelist.commands.components.WhitelistCommand;
+import pl.codelen.whitelist.database.RedisConnection;
+import pl.codelen.whitelist.event.WhitelistEvent;
 
-import static pl.codelen.template.logger.LoggingSystem.logError;
-import static pl.codelen.template.logger.LoggingSystem.logInfo;
+import static pl.codelen.whitelist.config.Config.*;
+import static pl.codelen.whitelist.logger.LoggingSystem.logError;
+import static pl.codelen.whitelist.logger.LoggingSystem.logInfo;
 
-public final class Main extends JavaPlugin {
-  private static Main instance;
+public final class Whitelist extends JavaPlugin {
+  private static Whitelist instance;
   public YamlDocument config;
-
   @Override
   public void onEnable() {
     instance = this;
     loadConfig();
-    loadConfig();
     registerCommands();
-    logInfo("Plugin template is enable!");
-    logInfo("Latest version of plugin is 1.0.0-BETA");
+    registerEvents();
+
+    if (redisTestConnection()) {
+      logInfo("Plugin jest wlaczony");
+      logInfo("Polaczenie z baza danych jest stabilne");
+      return;
+    }
+    logError("Nie mozna bylo utrzymac polaczenia z baza danych. Plugin sie wylacza!");
+    getServer().getPluginManager().disablePlugin(this);
+  }
+
+  private void registerEvents() {
+    Bukkit.getPluginManager().registerEvents(new WhitelistEvent(), this);
   }
 
   public void registerCommands() {
     CommandRegistrar commandRegistrar = new CommandRegistrar(this);
     List<CommandManager> commandManagers = new ArrayList<>();
 
-//    commandManagers.add(new ExampleCommand());
+    commandManagers.add(new WhitelistCommand());
 
     commandRegistrar.registerCommands(commandManagers);
   }
@@ -57,16 +69,20 @@ public final class Main extends JavaPlugin {
     }
   }
 
+  public boolean redisTestConnection() {
+    RedisConnection redisConnection = new RedisConnection(redisHost, redisPort, redisPassword);
+    redisConnection.connect();
+    String response = redisConnection.getJedis().ping();
+    redisConnection.disconnect();
+    return response.equalsIgnoreCase("pong");
+  }
+
   @Override
   public void onDisable() {
     // Plugin shutdown logic
   }
 
-  public static Main getInstance() {
+  public static Whitelist getInstance() {
     return instance;
-  }
-
-  public YamlDocument getConfigurationFile() {
-    return config;
   }
 }
