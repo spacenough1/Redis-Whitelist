@@ -5,8 +5,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import pl.codelen.whitelist.config.Config;
 
-import static pl.codelen.whitelist.config.Config.noPermission;
 import static pl.codelen.whitelist.utils.Colors.fixSyntax;
 
 public abstract class CommandManager implements CommandExecutor, CommandInfo {
@@ -23,7 +23,7 @@ public abstract class CommandManager implements CommandExecutor, CommandInfo {
   @Override
   public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
     if (!(permission().isEmpty()) && !sender.hasPermission(permission()) && !sender.hasPermission("whitelist.all")) {
-      sender.sendMessage(fixSyntax(noPermission));
+      sender.sendMessage(fixSyntax(Config.getNoPermission()));
       return true;
     }
     if (requirePlayer()) {

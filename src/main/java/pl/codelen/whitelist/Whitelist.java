@@ -17,10 +17,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.codelen.whitelist.commands.CommandManager;
 import pl.codelen.whitelist.commands.CommandRegistrar;
 import pl.codelen.whitelist.commands.components.WhitelistCommand;
+import pl.codelen.whitelist.config.Config;
 import pl.codelen.whitelist.database.RedisConnection;
 import pl.codelen.whitelist.event.WhitelistEvent;
 
-import static pl.codelen.whitelist.config.Config.*;
 import static pl.codelen.whitelist.logger.LoggingSystem.logError;
 import static pl.codelen.whitelist.logger.LoggingSystem.logInfo;
 
@@ -70,7 +70,7 @@ public final class Whitelist extends JavaPlugin {
   }
 
   public boolean redisTestConnection() {
-    RedisConnection redisConnection = new RedisConnection(redisHost, redisPort, redisPassword);
+    RedisConnection redisConnection = new RedisConnection(Config.getRedisHost(), Config.getRedisPort(), Config.getRedisPassword());
     redisConnection.connect();
     String response = redisConnection.getJedis().ping();
     redisConnection.disconnect();
@@ -79,7 +79,7 @@ public final class Whitelist extends JavaPlugin {
 
   @Override
   public void onDisable() {
-    // Plugin shutdown logic
+    logInfo("Plugin zostaje wyłączony!");
   }
 
   public static Whitelist getInstance() {

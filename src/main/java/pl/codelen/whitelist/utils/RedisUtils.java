@@ -1,14 +1,13 @@
 package pl.codelen.whitelist.utils;
 
 import org.jetbrains.annotations.NotNull;
+import pl.codelen.whitelist.config.Config;
 import pl.codelen.whitelist.database.RedisConnection;
 
 import java.util.List;
 
-import static pl.codelen.whitelist.config.Config.*;
-
 public class RedisUtils {
-  private final static RedisConnection redis = new RedisConnection(redisHost, redisPort, redisPassword);
+  private final static RedisConnection redis = new RedisConnection(Config.getRedisHost(), Config.getRedisPort(), Config.getRedisPassword());
   private static final String KEY = "whitelist-list";
   private static final String STATUS_KEY = "whitelist-properties";
   
